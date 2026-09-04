@@ -8,7 +8,7 @@ import com.spotify.android.appremote.api.SpotifyAppRemote
 class SpotifyManager(private val context: Context) {
 
     // conexion con el CLIENT ID que me da spotify dev dashboard
-    private val clientId = "TU_CLIENT_ID_AQUI"
+    private val clientId = "61f3281f9ace43ffb34523a734816244"
     private val redirectUri = "appmetrologica://callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
 
