@@ -19,7 +19,7 @@
         android:theme="@style/Theme.AppMetrologica">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="TU_API_KEY_DE_GOOGLE_MAPS_AQUI" />
+            android:value="" /> <!--(DE MOMENTO LA QUITE HASTA VER QUE ME DICE LA ASISTENTE IGUAL ERA LA DEMO KEY)Puesto que es tarea no es necesario ademas es una Demo key pero en la vida real hay que ocultar y cuesta plata-->
         <activity
             android:name=".MainActivity"
             android:exported="true"

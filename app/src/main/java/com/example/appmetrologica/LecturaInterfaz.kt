@@ -17,6 +17,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+//imports para la caja de producto (ya la hice icono pero por si acaso tambien pondre el png por aca)
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun LecturasInterfaz(
@@ -36,6 +40,14 @@ fun LecturasInterfaz(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Image( //la caja del producto
+            painter = painterResource(id = R.drawable.caja_producto), //png en res drawable
+            contentDescription = "Caja del producto",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp),
+            contentScale = ContentScale.Fit
+        )
         Text(
             text = "Registro Metrológico",
             style = MaterialTheme.typography.headlineMedium,

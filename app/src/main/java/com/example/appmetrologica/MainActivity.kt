@@ -54,6 +54,9 @@ class MainActivity : ComponentActivity() {
                     val scope = rememberCoroutineScope()
                     var opcionSeleccionada by remember { mutableStateOf("registro") }
 
+                    //Para el google maps CAMBIO
+                    var latitud by remember { mutableStateOf<Double?>(null) }
+                    var longitud by remember { mutableStateOf<Double?>(null) }
 
                     // MENU HAMBURGUESA ACA
                     ModalNavigationDrawer(
@@ -130,10 +133,15 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                     "mapa" -> {
-                                        Text( //aqui iria lo del maps lo dejo en blank
-                                            text = "Vista de Google Maps (Pendiente)",
-                                            modifier = Modifier.padding(16.dp)
-                                        )
+                                        //conseguimos la ubicacion (reutilizando lo de registro metrologico)
+                                        getLocation { latitude, longitude ->
+                                            latitud = latitude
+                                            longitud = longitude
+                                        }
+                                        println(latitud)
+                                        println(longitud)
+                                        //nos metemos a la interfaz para ver el mapa
+                                        GoogleMapsUI( latitud, longitud)
                                     }
                                     "spotify" -> {
                                         SpotifyUI(
