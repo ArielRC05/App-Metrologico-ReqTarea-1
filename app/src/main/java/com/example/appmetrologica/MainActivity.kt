@@ -80,14 +80,23 @@ class MainActivity : ComponentActivity() {
                                 )
                                 // OPCION 2
                                 NavigationDrawerItem(
-                                    label = { Text("Ubicación en Mapa") },
-                                    selected = opcionSeleccionada == "mapa",
+                                    label = { Text("Ubicación en Google Maps") },
+                                    selected = opcionSeleccionada == "mapa Google",
                                     onClick = {
-                                        opcionSeleccionada = "mapa"
+                                        opcionSeleccionada = "mapa Google"
                                         scope.launch { drawerState.close() }
                                     }
                                 )
-                                //OPCION 3
+                                // OPCION 3
+                                NavigationDrawerItem(
+                                    label = { Text("Ubicación en Mapa Alterno") },
+                                    selected = opcionSeleccionada == "mapa Alterno",
+                                    onClick = {
+                                        opcionSeleccionada = "mapa Alterno"
+                                        scope.launch { drawerState.close() }
+                                    }
+                                )
+                                //OPCION 4
                                 NavigationDrawerItem(
                                     label = { Text("Reproductor Spotify") },
                                     selected = opcionSeleccionada == "spotify",
@@ -105,7 +114,8 @@ class MainActivity : ComponentActivity() {
                                     title = {
                                         Text(
                                             when (opcionSeleccionada) {// dependiendo de lo seleccionado, cambia de pantalla
-                                                "mapa" -> "Ubicación en Mapa"
+                                                "mapa Google" -> "Ubicación en Google Maps"
+                                                "mapa Alterno" -> "Ubicación en Mapa Alterno"
                                                 "spotify" -> "Reproductor Spotify"
                                                 else -> "Registro Metrológico" // para evitar pantallas en blanco vacias, default es reg met
                                             }
@@ -132,7 +142,7 @@ class MainActivity : ComponentActivity() {
                                             }
                                         )
                                     }
-                                    "mapa" -> {
+                                    "mapa Google" -> {
                                         //conseguimos la ubicacion (reutilizando lo de registro metrologico)
                                         getLocation { latitude, longitude ->
                                             latitud = latitude
@@ -142,6 +152,17 @@ class MainActivity : ComponentActivity() {
                                         println(longitud)
                                         //nos metemos a la interfaz para ver el mapa
                                         GoogleMapsUI( latitud, longitud)
+                                    }
+                                    "mapa Alterno" -> {
+                                        //conseguimos la ubicacion (reutilizando lo de registro metrologico)
+                                        getLocation { latitude, longitude ->
+                                            latitud = latitude
+                                            longitud = longitude
+                                        }
+                                        println(latitud)
+                                        println(longitud)
+                                        //nos metemos a la interfaz para ver el mapa
+                                        MapaAlternoUI( latitud, longitud)
                                     }
                                     "spotify" -> {
                                         SpotifyUI(

@@ -61,7 +61,8 @@ dependencies {
     //Google Maps compose library
     implementation("com.google.maps.android:maps-compose:4.3.3")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-
+    //alternativa mapa con open street map
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
 
 
 
