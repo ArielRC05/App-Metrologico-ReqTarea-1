@@ -1,43 +1,32 @@
 package com.example.appmetrologica
 
+import android.content.ActivityNotFoundException
 import android.content.Context
-import com.spotify.android.appremote.api.ConnectionParams
-import com.spotify.android.appremote.api.Connector
-import com.spotify.android.appremote.api.SpotifyAppRemote
+import android.content.Intent
+import android.net.Uri
 
 class SpotifyManager(private val context: Context) {
 
-    // conexion con el CLIENT ID que me da spotify dev dashboard
-    private val clientId = "61f3281f9ace43ffb34523a734816244"
-    private val redirectUri = "appmetrologica://callback"
-    private var spotifyAppRemote: SpotifyAppRemote? = null
-
     fun reproducirPlaylist(playlistUriInput: String, onError: (String) -> Unit) {
-        // formatea la entrada a formato URI nativo (spotify:playlist:ID)
-        val uriFinal = formatearUriSpotify(playlistUriInput)
+        try {
+            val uriFinal = formatearUriSpotify(playlistUriInput)
 
-        val connectionParams = ConnectionParams.Builder(clientId)
-            .setRedirectUri(redirectUri)
-            .showAuthView(true)
-            .build()
-
-        SpotifyAppRemote.connect(context, connectionParams, object : Connector.ConnectionListener {
-            override fun onConnected(appRemote: SpotifyAppRemote) {
-                spotifyAppRemote = appRemote
-                // Inicia la reproducción continua de la lista de reproducción
-                spotifyAppRemote?.playerApi?.play(uriFinal)
+            // Intent que solicita abrir la app de spotify
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uriFinal)).apply {
+                setPackage("com.spotify.music")
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
 
-            override fun onFailure(throwable: Throwable) {
-                onError(throwable.message ?: "Error al conectar con Spotify")
-            }
-        })
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            onError("La aplicación de Spotify no está instalada en el dispositivo.")
+        } catch (e: Exception) {
+            onError("Error al abrir Spotify: ${e.localizedMessage}")
+        }
     }
 
     fun desconectar() {
-        spotifyAppRemote?.let {
-            SpotifyAppRemote.disconnect(it)
-        }
+        // Uso de Intent debido a errores de la SDK de Spotify
     }
 
     private fun formatearUriSpotify(input: String): String {
@@ -48,7 +37,7 @@ class SpotifyManager(private val context: Context) {
                 val id = trimmed.substringAfter("playlist/").substringBefore("?")
                 "spotify:playlist:$id"
             }
-            else -> "spotify:playlist:$trimmed" // Intenta usar el string directo como ID
+            else -> "spotify:playlist:$trimmed"
         }
     }
 }
